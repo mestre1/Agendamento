@@ -55,12 +55,12 @@ export default {
   .column-cards {
     height: 100%;
     .card-title {
-      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS",
         sans-serif;
-      font-size: 38px;
+      font-size: 39px;
       margin-top: 90px;
       margin-bottom: 40px;
-      line-height: 30px;
+      line-height: 40px;
       text-align: center;
     }
     .card-subtitle {

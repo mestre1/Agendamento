@@ -16,12 +16,12 @@ const router = new Router({
       component: () => import("@/views/Home.vue"),
     },
     {
-      path: "/cadastro",
+      path: "/register",
       name: "register",
       component: () => import("@/views/Register.vue"),
     },
     {
-      path: "/entrar",
+      path: "/login",
       name: "login",
       component: () => import("@/views/Login.vue"),
     },
