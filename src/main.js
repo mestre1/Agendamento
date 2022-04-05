@@ -1,10 +1,15 @@
 import Vue from "vue";
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
+<<<<<<< HEAD
 import axios from "axios";
 import firebase from "firebase/app";
 
 Vue.prototype.$axios = axios;
+=======
+import router from "./router";
+
+>>>>>>> 6ca85aa8d45c565a1cc240499d06b549b7d57624
 Vue.config.productionTip = false;
 
 // Your web app's Firebase configuration
@@ -22,5 +27,6 @@ const firebaseConfig = {
 
 new Vue({
   vuetify,
+  router,
   render: (h) => h(App),
 }).$mount("#app");

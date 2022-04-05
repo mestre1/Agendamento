@@ -31,8 +31,8 @@
         </v-row>
       </v-card>
     </v-col>
-    <v-col align-end lg="5" md="12" class="column-card">
-      <v-card class="pa-10" elevation="0" tile>
+    <v-col align-end lg="6" md="12" class="column-card">
+      <v-card class="pa-8" elevation="0" tile>
         <v-img class="img" src="@/assets/splashScreen.svg"></v-img>
       </v-card>
     </v-col>
@@ -55,17 +55,19 @@ export default {
   .column-cards {
     height: 100%;
     .card-title {
-      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS",
         sans-serif;
-      font-size: 38px;
+      font-size: 39px;
       margin-top: 90px;
       margin-bottom: 40px;
-      line-height: 30px;
+      line-height: 40px;
       text-align: center;
     }
     .card-subtitle {
-      font-family: "";
+      font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS",
+        sans-serif;
       font-size: 26px;
+      padding-inline: 50px;
       margin-bottom: 40px;
       text-align: center;
     }

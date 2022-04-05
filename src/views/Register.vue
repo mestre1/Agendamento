@@ -2,7 +2,9 @@
   <v-row no-gutters justify="center" class="home">
     <v-col lg="6" md="8" class="column-cards">
       <v-card class="pa-8" elevation="0" tile>
-        <v-card-title class="card-title"> Cadastro </v-card-title>
+        <v-card-title class="card-title justify-center">
+          Cadastro
+        </v-card-title>
         <register-form />
         <line-or class="line" />
         <v-row justify="center mt-6 mb-6">
@@ -68,9 +70,9 @@ export default {
   .column-cards {
     height: 100%;
     .card-title {
-      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-        sans-serif;
+      font-family: "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
       font-size: 38px;
+      size: 100%;
       margin-top: 10px;
       margin-bottom: 10px;
       line-height: 30px;
