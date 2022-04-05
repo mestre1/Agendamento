@@ -37,10 +37,27 @@
 <script>
 import LineOr from "../components/LineOr.vue";
 import RegisterForm from "../components/RegisterForm.vue";
+//import * as firebase from "firebase/app";
+//import "firebase/auth";
+
 export default {
   name: "FrontRegister",
-  components: { LineOr, RegisterForm },
+  components: { LineOr, RegisterForm }
+
+  /*methods(){
+    async registrar(){
+       // alert('Cadastro realizado com sucesso')
+       try{
+           const user =  firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
+           this.$router.replace({name: "register"})
+       }catch(err){
+          console.log(err)
+       }
+     
+    }
+  }*/
 };
+
 </script>
 <style lang="scss">
 @import url("https://fonts.google.com/css?family=Nunito");
