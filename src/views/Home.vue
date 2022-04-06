@@ -33,7 +33,7 @@
     </v-col>
     <v-col align-end lg="6" md="12" class="column-card">
       <v-card class="pa-8" elevation="0" tile>
-        <v-img class="img" src="@/assets/splashScreen.svg"></v-img>
+        <v-img class="img" src="@/assets/images/splashScreen.svg"></v-img>
       </v-card>
     </v-col>
   </v-row>
@@ -47,7 +47,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@import url("https://fonts.google.com/css?family=Nunito");
 .home {
   .img {
     width: 92%;

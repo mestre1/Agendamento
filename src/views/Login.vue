@@ -3,38 +3,37 @@
     <v-col lg="6" md="8" class="column-cards">
       <v-card class="pa-8" elevation="0" tile>
         <v-card-title class="card-title"> Entrar </v-card-title>
-        <login-form-vue />
-        <line-or class="line" />
-        <v-row justify="center mt-6 mb-6">
-          <v-btn
-            class="mr-4 pa-6 create-account buttons"
-            color="primary"
-            dark
-            to="/register"
-          >
-            Criar conta
-          </v-btn>
-          <v-btn
-            class="ml-4 pa-6 buttons"
-            outlined
-            color="primary"
-            dark
-            to="/login"
-          >
-            Já possuo uma conta
-          </v-btn>
-        </v-row>
+        <login-form-vue @login="loginWithFirebase" />
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import LineOr from "../components/LineOr.vue";
 import LoginFormVue from "@/components/LoginForm.vue";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { mapActions } from "vuex";
+
 export default {
   name: "FrontLogin",
-  components: { LineOr, LoginFormVue },
+  components: { LoginFormVue },
+  methods: {
+    ...mapActions(["addUser"]),
+    loginWithFirebase(user) {
+      signInWithEmailAndPassword(getAuth(), user.email, user.password)
+        .then(() => {
+          this.addUser({
+            name: getAuth().currentUser.displayName,
+            email: getAuth().currentUser.email,
+          });
+          this.$router.push({ name: "dashboard" });
+        })
+        .catch((err) => {
+          this.error = err.message;
+        });
+      console.log(user);
+    },
+  },
 };
 </script>
 <style lang="scss">
