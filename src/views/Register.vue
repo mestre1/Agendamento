@@ -18,19 +18,23 @@
 
 <script>
 import RegisterForm from "../components/RegisterForm.vue";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 export default {
   name: "FrontRegister",
   components: { RegisterForm },
   methods: {
     createFirebaseUser(user) {
+      const auth = getAuth();
       createUserWithEmailAndPassword(getAuth(), user.email, user.password)
-        .then((data) => {
-          data.user = {
+        .then(() => {
+          updateProfile(auth.currentUser, {
             displayName: user.name,
-            email: user.email,
-          };
+          });
           this.$router.push({ name: "login" });
         })
         .catch((err) => {

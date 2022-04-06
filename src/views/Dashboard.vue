@@ -15,7 +15,7 @@ export default {
     ...mapGetters(["currentUser"]),
   },
   mounted() {
-    this.userName = this.currentUser.userName;
+    this.userName = this.currentUser.name;
   },
 };
 </script>
