@@ -30,6 +30,16 @@ const router = new Router({
       name: "dashboard",
       component: () => import("@/views/Dashboard.vue"),
     },
+    {
+      path: "/calendar",
+      name: "calendar",
+      component: () => import("@/views/Calendar.vue"),
+    },
+    {
+      path: "/patientRecord",
+      name: "patientRecord",
+      component: () => import("@/views/PatientRecord"),
+    },
   ],
 });
 

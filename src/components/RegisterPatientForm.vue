@@ -17,23 +17,12 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Data de Nascimento"
-                readonly
+                label="Telefone"
                 v-bind="attrs"
                 v-on="on"
                 outlined
               ></v-text-field>
             </template>
-            <v-date-picker
-              v-model="date"
-              :active-picker.sync="activePicker"
-              :max="
-                new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-                  .toISOString()
-                  .substr(0, 10)
-              "
-              min="1950-01-01"
-            ></v-date-picker>
           </v-menu>
         </v-row>
         <v-row>
@@ -41,15 +30,15 @@
         </v-row>
         <v-row>
           <v-text-field
-            v-model="password"
-            :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
+            v-model="cpf"
             :rules="[rules.required, rules.min]"
-            :type="showpassword ? 'text' : 'password'"
+            :counter="11"
+            :type="'number'"
+            :value="currentValue"
             name="input-10-1"
-            label="Senha"
+            label="CPF"
             outlined
-            hint="Mínimo de 8 caracteres"
-            @click:append="showpassword = !showpassword"
+            hint="CPF valido de 11 digitos"
           ></v-text-field>
         </v-row>
         <v-row justify="center">
@@ -78,8 +67,13 @@
 </template>
 
 <script>
+import { vMask } from "v-mask";
+import Vue from "vue";
+
+Vue.directive("mask", vMask);
+
 export default {
-  name: "RegisterForm",
+  name: "RegisterPatientForm",
   data() {
     return {
       valid: true,
@@ -92,7 +86,7 @@ export default {
       showpassword: false,
       rules: {
         required: (value) => !!value || "Obrigatório.",
-        min: (v) => v.length >= 8 || "Minimo 8 characteres",
+        min: (v) => v.length == 11 || "seu CPF precisa ter 11 digitos",
         emailRules: [
           (v) => !!v || "Obrigatorio",
           (v) => /.+@.+\..+/.test(v) || "E-mail deve ser um endereço valido",
@@ -108,13 +102,13 @@ export default {
   methods: {
     validate() {
       if (this.$refs.form.validate()) {
-        const userRegister = {
+        const patientRegister = {
           name: this.name,
           date: this.date,
           email: this.email,
-          password: this.password,
+          cpf: this.cpf,
         };
-        this.$emit("register", userRegister);
+        this.$emit("patientRegister", patientRegister);
       }
     },
   },
