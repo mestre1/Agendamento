@@ -5,7 +5,7 @@
         <v-card-title class="card-title justify-center">
           Cadastro de Paciente
         </v-card-title>
-        <register-form @patientRegister="recordPatient" />
+        <register-form @patientRegister="createFirebaseUser" />
       </v-card>
     </v-col>
   </v-row>
@@ -19,7 +19,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 //import app from "@/plugins/firebase"
-import {getFirestore, collection, addDoc, getDocs} from "firebase/firestore"
+import {getFirestore, collection, getDocs, setDoc, doc,  updateDoc,
+  arrayUnion,
+} from "firebase/firestore"
 export default {
   name: "patientRecord",
    components: { RegisterForm },
@@ -28,19 +30,24 @@ export default {
    async recordPatient(user){
       const app = getAuth().app
       const db = getFirestore(app) 
-      const professional = getAuth().currentUser
 
       try{
-        const docRef = await addDoc(collection(db, user.cpf), {
+        setDoc(doc(db, "Patient", user.cpf), {
           name: user.name,
-          date: user.date,
           email: user.email,
           cpf: user.cpf,
-          professionalID: professional.uid,
-          professionalName: professional.displayName
-        })
-        console.log("Document written with ID: ", professional.uid, "-> ", docRef);
-        const q = await getDocs(collection(db, professional))
+          nextConsult: '',
+          professionalID: user.professionalUID,
+          professionalName: user.professionalName},
+        )
+        updateDoc(doc(db, "Professional", user.professionalUID), {
+          patients: arrayUnion({
+            paciente: user.name,
+            cpf: user.cpf,
+          }),
+        });
+        
+        const q = await getDocs(collection(db, "Patient", "Data"))
         q.forEach((doc) => {
           if(doc.data().name === user.name ){
             console.log(`${doc.id} => ${doc.data().name}`)
@@ -56,12 +63,13 @@ export default {
 
     createFirebaseUser(user) {
       const auth = getAuth();
-      createUserWithEmailAndPassword(getAuth(), user.email, user.password)
+      createUserWithEmailAndPassword(getAuth(), user.email, user.cpf)
         .then(() => {
           updateProfile(auth.currentUser, {
             displayName: user.name,
           });
-          this.$router.push({ name: "login" });
+          this.recordPatient(user)
+          this.$router.push({ name: "calendar" });
         })
         .catch((err) => {
           this.error = err.message;

@@ -49,16 +49,16 @@
             dark
             @click="validate"
           >
-            Criar conta
+            Cadastrar
           </v-btn>
           <v-btn
             class="ml-4 pa-6 buttons"
             outlined
             color="primary"
             dark
-            to="/login"
+            to="/dashboard"
           >
-            Já possuo uma conta
+            Cancelar
           </v-btn>
         </v-row>
       </v-col>
@@ -69,6 +69,7 @@
 <script>
 import { vMask } from "v-mask";
 import Vue from "vue";
+import { mapGetters } from "vuex";
 
 Vue.directive("mask", vMask);
 
@@ -97,7 +98,19 @@ export default {
           val && setTimeout(() => (this.activePicker = "YEAR"));
         },
       },
+      professionalName: "",
+      professionalUID: "",
     };
+  },
+  computed: {
+    ...mapGetters(["currentUser"]),
+    user() {
+      return this.currentUser;
+    },
+  },
+  mounted() {
+    this.professionalName = this.currentUser.name;
+    this.professionalUID = this.currentUser.uid;
   },
   methods: {
     validate() {
@@ -107,6 +120,8 @@ export default {
           date: this.date,
           email: this.email,
           cpf: this.cpf,
+          professionalName: this.professionalName,
+          professionalUID: this.professionalUID,
         };
         this.$emit("patientRegister", patientRegister);
       }

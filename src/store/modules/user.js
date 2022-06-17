@@ -1,11 +1,13 @@
 const state = {
   user: null,
   hasSession: false,
+  userUID: "",
 };
 
 const getters = {
   currentUser: () => state.user,
   hasSession: () => state.hasSession,
+  getUID: () => state.userUID,
 };
 
 const actions = {
@@ -14,6 +16,9 @@ const actions = {
     if (payload) {
       commit("setSession", true);
     }
+  },
+  addUID({ commit }, payload) {
+    commit("setUID", payload);
   },
 };
 
@@ -25,6 +30,10 @@ const mutations = {
   setSession($state, payload) {
     const stateCopy = $state;
     stateCopy.hasSession = payload;
+  },
+  setUID($state, payload) {
+    const stateCopy = $state;
+    stateCopy.userUID = payload;
   },
 };
 

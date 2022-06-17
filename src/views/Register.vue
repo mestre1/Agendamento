@@ -23,6 +23,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
 
 export default {
   name: "FrontRegister",
@@ -36,6 +37,17 @@ export default {
             displayName: user.name,
           });
           this.$router.push({ name: "login" });
+          setDoc(
+            doc(
+              getFirestore(getAuth().app),
+              "Professional",
+              getAuth().currentUser.uid
+            ),
+            {
+              patients: [],
+              schedules: [],
+            }
+          );
         })
         .catch((err) => {
           this.error = err.message;

@@ -37,6 +37,19 @@
           </v-menu>
         </v-row>
         <v-row>
+          <v-text-field
+            v-model="cpf"
+            :rules="[rules.required, rules.cpf]"
+            :counter="11"
+            :type="'number'"
+            :value="currentValue"
+            name="input-10-1"
+            label="CPF"
+            outlined
+            hint="CPF valido de 11 digitos"
+          ></v-text-field>
+        </v-row>
+        <v-row>
           <v-text-field v-model="email" label="Email" outlined></v-text-field>
         </v-row>
         <v-row>
@@ -92,6 +105,7 @@ export default {
       showpassword: false,
       rules: {
         required: (value) => !!value || "Obrigatório.",
+        cpf: (v) => v.length == 11 || "seu CPF precisa ter 11 digitos",
         min: (v) => v.length >= 8 || "Minimo 8 characteres",
         emailRules: [
           (v) => !!v || "Obrigatorio",
@@ -111,6 +125,7 @@ export default {
         const userRegister = {
           name: this.name,
           date: this.date,
+          cpf: this.cpf,
           email: this.email,
           password: this.password,
         };

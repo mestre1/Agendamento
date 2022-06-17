@@ -23,9 +23,11 @@ export default {
       signInWithEmailAndPassword(getAuth(), user.email, user.password)
         .then(() => {
           this.addUser({
+            uid: getAuth().currentUser.uid,
             name: getAuth().currentUser.displayName,
             email: getAuth().currentUser.email,
           });
+
           this.$router.push({ name: "dashboard" });
         })
         .catch((err) => {

@@ -43,6 +43,9 @@ export default {
   },
   computed: {
     ...mapGetters(["currentUser"]),
+    user() {
+      return this.currentUser;
+    },
   },
   mounted() {
     this.userName = this.currentUser.name;
