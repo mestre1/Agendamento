@@ -387,14 +387,106 @@
                 </v-card-text>
               </form>
               <form v-else>
-                <textarea-autosize
-                  v-model="selectedEvent.details"
-                  type="text"
-                  style="width: 100%"
-                  :min-height="100"
-                  placeholder="add note"
-                >
-                </textarea-autosize>
+                <v-card>
+                  <v-container>
+                    <v-form @submit.prevent="updateEvent">
+                      <v-text-field
+                        v-model="details"
+                        type="text"
+                        label="detail"
+                      ></v-text-field>
+                      <v-menu
+                        ref="menu1"
+                        v-model="modal1"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        :return-value.sync="time"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="start"
+                            label="Hora de Inicio"
+                            type="time"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-time-picker
+                          v-if="modal1"
+                          v-model="start"
+                          format="24hr"
+                          scrollable
+                          :active-picker.sync="activePicker"
+                          ampm-in-title
+                        >
+                          <v-spacer></v-spacer>
+                          <v-btn text color="primary" @click="modal1 = false"
+                            >Cancel</v-btn
+                          >
+                          <v-btn text color="primary" @click="modal1 = false"
+                            >OK</v-btn
+                          ></v-time-picker
+                        >
+                      </v-menu>
+                      <v-menu
+                        ref="menu2"
+                        v-model="modal2"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        :return-value.sync="time"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="end"
+                            label="Hora de Fim"
+                            type="time"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-time-picker
+                          v-if="modal2"
+                          v-model="end"
+                          format="24hr"
+                          :active-picker.sync="activePicker"
+                          scrollable
+                          ampm-in-title
+                          ><v-spacer></v-spacer>
+                          <v-btn text color="primary" @click="modal2 = false"
+                            >Cancel</v-btn
+                          >
+                          <v-btn text color="primary" @click="modal2 = false"
+                            >OK</v-btn
+                          ></v-time-picker
+                        >
+                      </v-menu>
+                      <v-btn
+                        type="submit"
+                        color="primary"
+                        class="mr-4"
+                        @click.stop="dialog = false"
+                      >
+                        update event
+                      </v-btn>
+                      <v-btn
+                        type="submit"
+                        color="secundary"
+                        class="mr-4"
+                        @click.stop="selectedOpen = false"
+                      >
+                        cancel
+                      </v-btn>
+                    </v-form>
+                  </v-container>
+                </v-card>
               </form>
             </v-card-text>
 
@@ -476,6 +568,8 @@ export default {
       ["#0000FF", "#0000AA", "#000055"],
     ],
     selectedPatient: "",
+    modal2: false,
+    modal1: false,
   }),
   computed: {
     submittableDataTime(time) {
@@ -622,13 +716,36 @@ export default {
     },
 
     //------------------------------- AJUSTAR UPDATE ----------------------------
-    async updateEvent(ev) {
+    async updateEvent() {
       const app = getAuth().app;
       const db = getFirestore(app);
-      await db.collection("calEvents").doc(this.currentlyEditing).update({
-        details: ev.details,
+      let list = await getDocs(collection(db, "calEvents"));
+      list.forEach((document) => {
+        if (document.id === this.currentlyEditing) {
+          var date = document.data().start.split(" ");
+          console.log("DOC START -->", date);
+          if (
+            this.details !== null &&
+            this.start !== Object &&
+            this.start !== Object
+          ) {
+            updateDoc(doc(db, "calEvents", this.currentlyEditing), {
+              details: this.details,
+              start: date[0] + " " + this.start,
+              end: date[0] + " " + this.end,
+            });
+          }
+          this.getEvents();
+          (this.name = ""),
+            (this.details = ""),
+            (this.patient = ""),
+            (this.day = ""),
+            (this.start = ""),
+            (this.end = ""),
+            (this.color = "");
+          (this.selectedOpen = false), (this.currentlyEditing = null);
+        }
       });
-      (this.selectedOpen = false), (this.currentlyEditing = null);
     },
 
     //----------------------------------------------------------------------------
